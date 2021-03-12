@@ -1,10 +1,9 @@
 {
-    "name": "laravel/laravel",
+    "name": "wendao2000/macaron",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "macaron",
     "keywords": [
-        "framework",
-        "laravel"
+        "macaron"
     ],
     "license": "MIT",
     "require": {
