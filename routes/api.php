@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::namespace('API')->name('api.')->group(function () {
-    Route::namespace('Latest')->prefix('latest')->name('latest.')->group(function () {
+    Route::namespace('v1_0')->prefix('v1_0')->name('v1_0.')->group(function () {
         Route::prefix('user')->name('user.')->group(function () {
             Route::get('get-list', 'UserController@getList')->name('get-list');
             Route::post('add', 'UserController@add')->name('add');

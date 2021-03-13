@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Latest;
+namespace App\Http\Controllers\API\v1_0;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
