@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1_0;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RoleCollection;
 use App\Http\Resources\RoleResource;
 use App\Model\Role;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class RoleController extends Controller
     public function getList(Request $request) {
         $roles = Role::query()->get();
 
-        return RoleResource::collection($roles);
+        return new RoleCollection($roles);
     }
 
     public function add(Request $request) {

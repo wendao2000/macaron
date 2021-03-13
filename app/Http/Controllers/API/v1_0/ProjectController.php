@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1_0;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProjectCollection;
 use App\Http\Resources\ProjectResource;
 use App\Model\Project;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class ProjectController extends Controller
     public function getList(Request $request) {
         $projects = Project::query()->get();
 
-        return ProjectResource::collection($projects);
+        return new ProjectCollection($projects);
     }
 
     public function add(Request $request) {

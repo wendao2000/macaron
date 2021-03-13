@@ -14,28 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::namespace('API')->name('api.')->group(function () {
-    Route::namespace('v1_0')->prefix('v1_0')->name('v1_0.')->group(function () {
-        Route::prefix('user')->name('user.')->group(function () {
-            Route::get('get-list', 'UserController@getList')->name('get-list');
-            Route::post('add', 'UserController@add')->name('add');
-            Route::put('edit', 'UserController@edit')->name('edit');
-            Route::delete('delete', 'UserController@delete')->name('delete');
-        });
+Route::namespace('API')->name('api.')->middleware('check.version')->group(function () {
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('get-list', 'UserController@getList')->name('get-list');
+        Route::post('add', 'UserController@add')->name('add');
+        Route::put('edit', 'UserController@edit')->name('edit');
+        Route::delete('delete', 'UserController@delete')->name('delete');
+    });
 
-        Route::prefix('role')->name('role.')->group(function () {
-            Route::get('get-list', 'RoleController@getList')->name('get-list');
-            Route::post('add', 'RoleController@add')->name('add');
-            Route::put('edit', 'RoleController@edit')->name('edit');
-            Route::delete('delete', 'RoleController@delete')->name('delete');
-        });
+    Route::prefix('role')->name('role.')->group(function () {
+        Route::get('get-list', 'RoleController@getList')->name('get-list');
+        Route::post('add', 'RoleController@add')->name('add');
+        Route::put('edit', 'RoleController@edit')->name('edit');
+        Route::delete('delete', 'RoleController@delete')->name('delete');
+    });
 
-        Route::prefix('project')->name('project.')->group(function () {
-            Route::get('get-list', 'ProjectController@getList')->name('get-list');
-            Route::post('add', 'ProjectController@add')->name('add');
-            Route::put('edit', 'ProjectController@edit')->name('edit');
-            Route::delete('delete', 'ProjectController@delete')->name('delete');
-        });
+    Route::prefix('project')->name('project.')->group(function () {
+        Route::get('get-list', 'ProjectController@getList')->name('get-list');
+        Route::post('add', 'ProjectController@add')->name('add');
+        Route::put('edit', 'ProjectController@edit')->name('edit');
+        Route::delete('delete', 'ProjectController@delete')->name('delete');
     });
 });
 

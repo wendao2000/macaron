@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1_0;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Model\User;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class UserController extends Controller
     public function getList(Request $request) {
         $users = User::query()->with('roles')->get();
 
-        return UserResource::collection($users);
+        return new UserCollection($users);
     }
 
     public function add(Request $request) {
@@ -24,7 +25,7 @@ class UserController extends Controller
             'id' => ['required', 'integer', 'exists:users'],
             'name' => ['required', 'string', 'max:255', 'unique:users,name,' . $request->input('id') . ',id'],
             'email' => ['required', 'string', 'max:255', 'unique:users,email,' . $request->input('id') . ',id'],
-//            'roles' => ['present', 'array'],
+            // 'roles' => ['present', 'array'],
             'roles.*.id' => ['integer', 'exists:roles'],
         ]);
 
