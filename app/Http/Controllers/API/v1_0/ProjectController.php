@@ -28,14 +28,22 @@ class ProjectController extends Controller
         $project->project_name = $data['project_name'];
         $project->is_active = $data['is_active'];
 
-        if ($project->save()) {
-            return new ProjectResource($project);
+        try {
+            $project->save();
         }
+        catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        return new ProjectResource($project);
     }
 
     public function edit(Request $request) {
         $data = $request->validate([
-            'id' => ['required', 'integer', 'exists:project'],
+            'id' => ['required', 'integer', 'exists:projects'],
             'project_code' => ['required', 'string', 'max:255', 'unique:projects'],
             'project_name' => ['required', 'string', 'max:255', 'unique:projects'],
             'is_active' => ['required', 'boolean'],
@@ -46,12 +54,39 @@ class ProjectController extends Controller
         $project->project_name = $data['project_name'];
         $project->is_active = $data['is_active'];
 
-        if ($project->save()) {
-            return new ProjectResource($project);
+        try {
+            $project->save();
         }
+        catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        return new ProjectResource($project);
     }
 
     public function delete(Request $request) {
+        $data = $request->validate([
+            'id' => ['required', 'integer', 'exists:projects'],
+        ]);
 
+        $project = Project::query()->find($data['id']);
+
+        try {
+            $project->delete();
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        return response()->json([
+            'ok' => true,
+            'message' => 'Successfully deleted data.',
+        ]);
     }
 }

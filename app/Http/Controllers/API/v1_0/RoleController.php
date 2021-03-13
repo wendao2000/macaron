@@ -26,16 +26,63 @@ class RoleController extends Controller
         $role->role_code = $data['role_code'];
         $role->role_name = $data['role_name'];
 
-        if ($role->save()) {
-            return new RoleResource($role);
+        try {
+            $role->save();
         }
+        catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        return new RoleResource($role);
     }
 
     public function edit(Request $request) {
+        $data = $request->validate([
+            'id' => ['required', 'integer', 'exists:roles'],
+            'role_code' => ['required', 'string', 'max:255', 'unique:roles'],
+            'role_name' => ['required', 'string', 'max:255', 'unique:roles'],
+        ]);
 
+        $role = Role::query()->find($data['id']);
+        $role->role_code = $data['role_code'];
+        $role->role_name = $data['role_name'];
+
+        try {
+            $role->save();
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        return new RoleResource($role);
     }
 
     public function delete(Request $request) {
+        $data = $request->validate([
+            'id' => ['required', 'integer', 'exists:roles'],
+        ]);
 
+        $role = Role::query()->find($data['id']);
+
+        try {
+            $role->delete();
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        return response()->json([
+            'ok' => true,
+            'message' => 'Successfully deleted data.',
+        ]);
     }
 }
